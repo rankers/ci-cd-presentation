@@ -138,9 +138,70 @@ If you don't keep it short:
 * Take responsibilty for all breakages as a result of your change - even those that seem unrelated
 * TDD
 
+# Testing Strategies
+
+"Cease dependence on mass inspection to achieve quality. Improve the process and build quality into the product in the first place"
+
+Testing quadrant image
+
+
+
+
 # Deployment Pipeline (p105)
 
-# Branching Strategies
+
+* CI massive step forward, helps the development process
+* Delivery isn't just dev
+* Majority of time can be spent in testing / ops
+  * Testers waiting for a 'good' build
+  * Dev team recieve bug report weeks after finishign the dev work
+  * Ops teams waiting on builds / documentation
+  * Discover at the end of the delivery lifecycle we do not support non functional reqs
+
+"An automated manifestation of your process for getting software from version control into the hands of users"
+
+# Deployment Pipeline Practices (p113)
+
+* Only build binaries once
+* Corollary to this - promte binaries not source code 
+* Deply the same way to every environment
+* Smoke test deployments
+* Deploy into a copy of prod 
+* If any part of the pipeline fails, stop the line - all team members responsible to fix
+
+# Commit Stage 
+
+First stage of the pipeline, also run on devs local machine or as PR builds
+
+* Compile code
+* Lint / static code analysis
+* Run set of commit tests - may not be just unit, can include smoke test of we can run them quickly enough
+* Prepare artifacts
+
+# Automated Acceptance Tests
+
+* Majority are functional
+* Development team must respond to acceptance test breakages immediately
+* Must be written within the team - developers must feel ownership otherwise they won't fix
+* Corollary of this practice is developers must be able to run acceptance tests on their development machine - classic obstacle to this is test licenses not being available - this obstacle must be removed
+* Acceptance tests must assert business value not coupled to technical implementation. Must be written in the 'Ubiqutous Language'. So "apply for Retriement Account" not "Click apply button"
+
+# Build and Deploy Scripting
+
+* Create a script for each stage of the pipeline (commit stage, acceptance stage, deploy stage, db migrations etc.)
+* Use appropriate technology to deploy app - don't use general purpose scripting language (Helm for K8 anyone?)
+* Use same script to deploy to every environment, build and deploy scripts must work locally as well as on prod like envs (may involve significant work to replace certain architectural components with )
+* If developers rely on shared resources in order to run the app - the deployment of those components are run less frequently and the feedback loop is much slower
+* Shouldn't be "How can we justify the effort to build a mock IDP" should be "How can we justify not investing in making the app run locally"
+* Ensure deployment process is idempotent 
+
+# Topics to cover
+
+* Application config management
+* Branching strategies
+* Artifact promotion
+* Feedback loops
+* DX / TX
 
 # Managing Envs (p5)
 
@@ -161,3 +222,5 @@ If you don't keep it short:
 * Kubernetes workflow - https://developer.atlassian.com/blog/2017/07/kubernetes-workflow/
 * https://www.weave.works/blog/managing-helm-releases-the-gitops-way
 * https://continuousdelivery.com/
+* https://trunkbaseddevelopment.com
+* http://www.exampler.com/testing-com/writings/automate.pdf
