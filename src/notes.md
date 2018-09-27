@@ -19,17 +19,6 @@ Could argue:
 * Testers should store test scripts in version control
 * PMs should save release plans, progress charts etc,
 
-Use meaningful commit messages
-
-* Prepend all subject with ticket number
-* Separate subject from body with a blank line
-* Limit the subject line to 50 characters
-* Capitalize the subject line
-* Do not end the subject line with a period
-* Use the imperative mood in the subject line
-* Wrap the body at 72 characters
-* Use the body to explain what and why vs. how
-
 ## Managing Dependencies 
 
 ### External Libraries
@@ -144,11 +133,7 @@ If you don't keep it short:
 
 Testing quadrant image
 
-
-
-
 # Deployment Pipeline (p105)
-
 
 * CI massive step forward, helps the development process
 * Delivery isn't just dev
@@ -176,7 +161,8 @@ First stage of the pipeline, also run on devs local machine or as PR builds
 * Compile code
 * Lint / static code analysis
 * Run set of commit tests - may not be just unit, can include smoke test of we can run them quickly enough
-* Prepare artifacts
+* Prepare artifacts - test reports, binaries, metadata
+* Commit stage execution time must be balanced with commit stage ability to identify most common error
 
 # Automated Acceptance Tests
 
@@ -195,12 +181,52 @@ First stage of the pipeline, also run on devs local machine or as PR builds
 * Shouldn't be "How can we justify the effort to build a mock IDP" should be "How can we justify not investing in making the app run locally"
 * Ensure deployment process is idempotent 
 
+# Source Control
+
+## Commiting 
+
+Use meaningful commit messages
+
+* Prepend all subject with ticket number
+* Separate subject from body with a blank line
+* Limit the subject line to 50 characters
+* Capitalize the subject line
+* Do not end the subject line with a period
+* Use the imperative mood in the subject line
+* Wrap the body at 72 characters
+* Use the body to explain what and why vs. how
+
+## Brancing strategies
+
+* 3 times branch is acceptable to be made
+  * Spike
+  * Release
+  * Impossible to make a change to the application using any other technique of feature flagging / branch by abstraction etc.
+* What happens when you branch? The entire code base including test cases, configuration, database scripts etc. evolve separately
+* If not for spike or release which are never merged back to mainline a branch means a merge
+* Tension between branching and CI, if team members are working on branches then by definition they aren't performing CI
+* Lean school of thought says anything not on trunk is essentially waste 
+* Branches usually have soft dependencies between each otehr for instance a bug fix may need to be shared to all
+
+## Branch for release
+
+* Feature are always developed on mainline still
+* Release branch is created when you are feature complete and want to continue working on new features
+* Only critical fixes are added. Preference of fixing in trunk and cherry pick out, revert back to fix on release and cherry pick down
+* New release branch has to come off trunk
+* Once cycle beteween each cut of release branch is squeezed smaller and smaller as team matures essentially move to CD
+* Github flow
+* Trunk based
+
+
 # Topics to cover
 
 * Application config management
-* Branching strategies
+* Branching strategies 
 * Artifact promotion
 * Feedback loops
+* Build time optimization 
+* Repo structure
 * DX / TX
 
 # Managing Envs (p5)
@@ -224,3 +250,4 @@ First stage of the pipeline, also run on devs local machine or as PR builds
 * https://continuousdelivery.com/
 * https://trunkbaseddevelopment.com
 * http://www.exampler.com/testing-com/writings/automate.pdf
+* https://www.youtube.com/watch?v=W71BTkUbdqE&feature=youtu.be
